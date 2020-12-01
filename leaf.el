@@ -723,13 +723,18 @@ see `alist-get'."
 
 ;;;; find-function
 
+(defcustom leaf-find-regexp
+  ".*([[:space:]]*leaf[[:space:]]+%s"
+  "The regexp used by `leaf-find' to search for a leaf block.
+Note it must contain a `%s' at the place where `format'
+should insert the leaf name."
+  :type 'regexp
+  :group 'leaf)
+
 (with-eval-after-load 'find-func
   (defvar find-function-regexp-alist)
-  (defun leaf--find (name)
-    (re-search-forward (concat ".*([[:space:]]*leaf[[:space:]]+"
-                               (symbol-name name))))
   (add-to-list 'find-function-regexp-alist
-               '(leaf . leaf--find)))
+               '(leaf . leaf-find-regexp)))
 
 (defun leaf-find (name)
   "Find the leaf block of NAME."
